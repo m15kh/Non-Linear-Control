@@ -1,0 +1,50 @@
+<p>Passivity is energy bookkeeping. A passive system can store and dissipate energy, but never create it. That simple physical idea gives one of the most robust stability results in control.</p>
+
+<h2 id="memoryless">6.1 Memoryless functions</h2>
+<p>A static nonlinearity \(y = h(t, u)\) is <b>passive</b> if \(u^\top y \ge 0\): the power flowing in is never negative. In the scalar case its graph lies in the first and third quadrants. It lies in the <b>sector</b> \([\alpha, \beta]\) if</p>
+<div class="eq">\[ \big(y - \alpha u\big)\big(\beta u - y\big) \ge 0 \]</div>
+<p>which means the graph lies between the lines \(y = \alpha u\) and \(y = \beta u\). Sectors come back in Chapter 7's circle criterion.</p>
+
+<h2 id="state-models">6.2 State models</h2>
+<div class="box">
+  <span class="box-t">Definition</span>
+  <p>The system \(\dot x = f(x, u),\ y = h(x, u)\) is <b>passive</b> if there is a continuously differentiable positive semidefinite <b>storage function</b> \(V(x)\) with</p>
+  <div class="eq">\[ \dot V = \frac{\partial V}{\partial x} f(x, u) \le u^\top y \]</div>
+  <p>It is <b>lossless</b> if equality holds, <b>output strictly passive</b> if \(\dot V \le u^\top y - y^\top \rho(y)\) with \(y^\top\rho(y) &gt; 0\), and <b>strictly passive</b> if \(\dot V \le u^\top y - \psi(x)\) with \(\psi\) positive definite.</p>
+</div>
+<p>Integrated over time, the inequality reads: <i>stored energy now − stored energy at the start ≤ energy supplied</i>.</p>
+<figure>
+  <div class="lab" data-lab="ch6-passive"></div>
+  <figcaption><b>Figure 6.1</b> Mass–spring–damper with force input and velocity output. The solid curve is the change in stored energy, the dashed curve the energy supplied through the port \(u \cdot y\).</figcaption>
+</figure>
+<div class="try">
+  <h4>Try this</h4>
+  <ul>
+    <li>Set \(c = 0\): the system is lossless and the two curves coincide.</li>
+    <li>With \(c &gt; 0\) the gap grows: that is the energy dissipated in the damper.</li>
+    <li>Increase the output feedback \(K\). Feeding the output back with a negative sign removes energy, like adding damping.</li>
+  </ul>
+</div>
+
+<h2 id="pr">6.3 Positive real transfer functions</h2>
+<p>For linear systems passivity has a frequency-domain form. A stable transfer function \(G(s)\) is <b>positive real</b> if \(\operatorname{Re}\, G(j\omega) \ge 0\) for all \(\omega\): its Nyquist plot stays in the right half-plane, so its phase stays between \(-90^\circ\) and \(+90^\circ\). It is <b>strictly positive real</b> if this holds with some margin. The <b>Kalman–Yakubovich–Popov lemma</b> connects the two worlds: \(G(s) = C(sI - A)^{-1}B + D\) is strictly positive real exactly when there are matrices \(P = P^\top &gt; 0\), \(L\), \(W\) and \(\varepsilon &gt; 0\) with</p>
+<div class="eq">\[ PA + A^\top P = -L^\top L - \varepsilon P, \quad PB = C^\top - L^\top W, \quad W^\top W = D + D^\top \]</div>
+<p>and then \(V = \tfrac12 x^\top P x\) is a storage function.</p>
+
+<h2 id="lyapunov">6.4 Passivity, L₂ and Lyapunov stability</h2>
+<ul>
+  <li>An output strictly passive system with \(y^\top \rho(y) \ge \delta\, y^\top y\) is finite-gain \(\mathcal L_2\) stable with gain at most \(1/\delta\).</li>
+  <li>If a passive system is <b>zero-state observable</b> (with \(u = 0\), \(y \equiv 0\) only when \(x \equiv 0\)), then the output feedback \(u = -\phi(y)\) with \(y^\top\phi(y) &gt; 0\) makes the origin asymptotically stable. The storage function \(V\) is the Lyapunov function, and LaSalle's principle does the rest.</li>
+</ul>
+
+<h2 id="feedback">6.5 Feedback systems: passivity theorems</h2>
+<div class="box thm">
+  <span class="box-t">Theorem 6.1 (passivity theorem)</span>
+  <p>The negative feedback connection of two passive systems is passive. If, in addition, the storage functions satisfy suitable strictness and observability conditions, the origin of the closed loop is asymptotically stable, with \(V_1 + V_2\) as a Lyapunov function.</p>
+</div>
+<p>Compare with the small-gain theorem: there the loop gain must be below one; here the gains can be arbitrarily large, as long as the phase is right. Robotic manipulators with collocated sensors, electrical networks of resistors, inductors and capacitors, and many mechanical systems are passive, which is why passivity-based control (Chapter 14) is so effective for them.</p>
+
+<div class="box">
+  <span class="box-t">Key takeaways</span>
+  <p>A system is passive if the energy it stores never exceeds the energy supplied: \(\dot V \le u^\top y\). In the frequency domain this is positive realness. Negative feedback of passive systems is always passive, and with a little strictness, stable, regardless of gain.</p>
+</div>

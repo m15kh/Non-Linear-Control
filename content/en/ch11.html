@@ -1,0 +1,43 @@
+<p>Many systems have parts that move on very different time scales: electrical transients vs. mechanical motion, actuator dynamics vs. the plant, fast chemical reactions vs. slow temperature. Singular perturbation theory exploits that gap to split one hard problem into two easier ones.</p>
+
+<h2 id="model">11.1 The standard model</h2>
+<div class="eq">\[ \dot x = f(t, x, z, \varepsilon), \qquad \varepsilon\,\dot z = g(t, x, z, \varepsilon) \]</div>
+<p>With \(\varepsilon\) small, \(\dot z = g/\varepsilon\) is huge unless \(g \approx 0\): \(z\) is the <b>fast</b> variable and \(x\) the <b>slow</b> one. Setting \(\varepsilon = 0\) turns the second equation into an algebraic one, \(0 = g(t, x, z, 0)\). If it has an isolated root \(z = h(t, x)\), substituting gives the <b>reduced (slow) model</b></p>
+<div class="eq">\[ \dot x = f\big(t, x, h(t, x), 0\big) \]</div>
+<p>The perturbation is "singular" because setting \(\varepsilon = 0\) lowers the order of the system: the reduced model cannot satisfy an arbitrary initial value of \(z\).</p>
+
+<h2 id="time-scales">11.2 Two time scales</h2>
+<p>Near \(t = 0\), \(z\) jumps from its initial value to the manifold \(z = h\). Zoom into that <b>boundary layer</b> with the fast time \(\tau = t/\varepsilon\) and the deviation \(y = z - h(t, x)\):</p>
+<div class="eq">\[ \frac{dy}{d\tau} = g\big(t, x, y + h(t, x), 0\big) \]</div>
+<p>with \(t\) and \(x\) frozen. If the origin of this boundary-layer model is exponentially stable, uniformly in the frozen \((t, x)\), the jump really happens and dies out.</p>
+<div class="box thm">
+  <span class="box-t">Tikhonov's theorem (Theorem 11.1)</span>
+  <p>Under these conditions, for small \(\varepsilon\) and on a finite interval,</p>
+  <div class="eq">\[ x(t, \varepsilon) = \bar x(t) + O(\varepsilon), \qquad z(t, \varepsilon) = h(t, \bar x(t)) + \hat y(t/\varepsilon) + O(\varepsilon) \]</div>
+  <p>where \(\bar x\) solves the reduced model and \(\hat y\) the boundary-layer model. If the reduced model is also exponentially stable, the approximation holds for all \(t \ge 0\).</p>
+</div>
+<figure>
+  <div class="lab" data-lab="ch11-sp"></div>
+  <figcaption><b>Figure 11.1</b> \(\dot x = -x + z,\ \varepsilon\dot z = -z + x^2\). The slow manifold is \(z = x^2\); the reduced model is \(\dot x = -x + x^2\).</figcaption>
+</figure>
+<div class="try">
+  <h4>Try this</h4>
+  <ul>
+    <li>With \(\varepsilon = 0.02\), every trajectory makes a near-vertical drop onto the orange curve, then slides. The time plot of \(z - h(x)\) shows the boundary layer dying out in a few \(\varepsilon\).</li>
+    <li>Start to the right of \(x = 1\): the reduced model \(\dot x = -x + x^2\) is unstable there, and so is the full system.</li>
+    <li>Raise \(\varepsilon\) toward 1: the drop becomes a curve and the two-stage picture blurs.</li>
+  </ul>
+</div>
+
+<h2 id="manifolds">11.4 Slow and fast manifolds</h2>
+<p>For \(\varepsilon &gt; 0\) there is an invariant <b>slow manifold</b> \(z = H(x, \varepsilon) = h(x) + O(\varepsilon)\) close to the \(\varepsilon = 0\) one. Trajectories are attracted to it at the fast rate and then follow it. The orange curve in the figure is \(h\); the true invariant manifold is slightly shifted from it, by an amount that shrinks with \(\varepsilon\).</p>
+
+<h2 id="stability">11.5 Stability analysis</h2>
+<p>If both the reduced model and the boundary-layer model are exponentially stable, the full system is exponentially stable for all \(\varepsilon\) below some \(\varepsilon^*\). The proof uses the composite Lyapunov function</p>
+<div class="eq">\[ \nu(x, z) = (1 - d)\, V(x) + d\, W\big(x, z - h(x)\big), \qquad 0 &lt; d &lt; 1 \]</div>
+<p>built from the Lyapunov functions \(V\) of the slow model and \(W\) of the fast one. The bound \(\varepsilon^*\) also measures robustness: it tells how much neglected fast dynamics (sensor and actuator lags, parasitic elements) a design for the reduced model can tolerate.</p>
+
+<div class="box">
+  <span class="box-t">Key takeaways</span>
+  <p>When some variables are much faster than others, set \(\varepsilon = 0\) to get a reduced slow model, and study the fast boundary layer separately. If the boundary layer is exponentially stable, Tikhonov's theorem says the full solution follows the two-stage approximation within \(O(\varepsilon)\). Stability of both models gives stability of the full system for small \(\varepsilon\).</p>
+</div>

@@ -1,0 +1,78 @@
+<h2 id="phase-plane">The phase plane</h2>
+<p>Most nonlinear equations cannot be solved in closed form. For second-order systems there is an easy way around that: instead of solving, look at the behavior on a plane.</p>
+<div class="eq">\[ \dot{x}_1 = f_1(x_1, x_2), \qquad \dot{x}_2 = f_2(x_1, x_2) \]</div>
+<p>Put \(x_1\) and \(x_2\) on the two axes. Every state is a point, and as time goes on the point traces a curve, the <b>trajectory</b> or <b>orbit</b>. The collection of trajectories is the <b>phase portrait</b>. At each point, \(f(x) = (f_1, f_2)\) is a vector tangent to the trajectory through it, so drawing the vector field already shows the flow. In every figure below the light arrows are that vector field.</p>
+
+<h2 id="linear">2.1 Qualitative behavior of linear systems</h2>
+<p>For \(\dot{x} = Ax\) with \(A\) a real \(2 \times 2\) matrix, the phase portrait is decided by the eigenvalues \(\lambda_1, \lambda_2\) of \(A\). A change of coordinates to the real Jordan form gives six typical cases.</p>
+<figure>
+  <div class="lab" data-lab="ch2-linear"></div>
+  <figcaption><b>Figure 2.1</b> The six phase portraits of a linear system. Pick a case; click to add trajectories.</figcaption>
+</figure>
+<div class="tw"><table>
+  <thead><tr><th>Eigenvalues</th><th>Equilibrium</th><th>Behavior</th></tr></thead>
+  <tbody>
+    <tr><td>real, both negative</td><td>stable node</td><td>all trajectories enter the origin</td></tr>
+    <tr><td>real, both positive</td><td>unstable node</td><td>all leave the origin</td></tr>
+    <tr><td>real, opposite signs</td><td>saddle</td><td>one stable and one unstable direction</td></tr>
+    <tr><td>complex, \(\operatorname{Re}\lambda &lt; 0\)</td><td>stable focus</td><td>spiral in</td></tr>
+    <tr><td>complex, \(\operatorname{Re}\lambda &gt; 0\)</td><td>unstable focus</td><td>spiral out</td></tr>
+    <tr><td>purely imaginary</td><td>center</td><td>closed ellipses</td></tr>
+  </tbody>
+</table></div>
+
+<h2 id="msd">Seeing the cases in a mass–spring–damper</h2>
+<p>The mass–spring–damper \(\ddot{x} + c\dot{x} + kx = 0\) has \(\operatorname{tr} A = -c\) and \(\det A = k\), so the two sliders sweep through almost every case. Underdamped is a stable focus, overdamped a stable node, no damping a center, and a negative spring a saddle.</p>
+<figure>
+  <div class="lab" data-lab="ch2-msd"></div>
+  <figcaption><b>Figure 2.2</b> Mass, spring and damper. The small box in the corner shows the eigenvalues on the complex plane.</figcaption>
+</figure>
+
+<h2 id="multiple">2.2 Multiple equilibria</h2>
+<p>A nonlinear system can have several isolated equilibria, each with its own type. The pendulum has a stable equilibrium hanging down and saddles standing up, at \(\theta = \pm\pi\). The tunnel-diode circuit of Chapter 1 has two stable nodes separated by a saddle. The stable manifolds of the saddle split the plane into regions that end at different equilibria.</p>
+
+<h2 id="near">2.3 Behavior near equilibrium points</h2>
+<p>Near an equilibrium \(p\), write \(x = p + z\) and keep only the linear term of the Taylor expansion:</p>
+<div class="eq">\[ \dot{z} \approx A z, \qquad A = \left.\frac{\partial f}{\partial x}\right|_{x = p} \]</div>
+<div class="box thm">
+  <span class="box-t">What linearization can and cannot tell you</span>
+  <p>If \(A\) has no eigenvalue on the imaginary axis (a <b>hyperbolic</b> equilibrium), the nonlinear phase portrait near \(p\) looks like the linear one: a node is a node, a saddle a saddle, a focus a focus. If \(A\) has eigenvalues on the imaginary axis (a center, or a zero eigenvalue), the higher-order terms decide, and linearization says nothing.</p>
+</div>
+<p>The pendulum below shows both cases. With damping, the bottom equilibrium is a stable focus. With \(b = 0\) linearization says "center", which by itself proves nothing; here energy conservation shows the orbits really are closed.</p>
+<figure>
+  <div class="lab" data-lab="ch2-pend"></div>
+  <figcaption><b>Figure 2.3</b> Pendulum with friction \(b\) and constant input torque \(T\): \(\ddot\theta = -a\sin\theta - b\dot\theta + T\). The caption box classifies each equilibrium from its Jacobian.</figcaption>
+</figure>
+<div class="try">
+  <h4>Try this</h4>
+  <ul>
+    <li>Set \(b = 0\). The energy bar stays constant and the orbits become closed curves.</li>
+    <li>Start near the top with \(b\) small. If the energy is above the "spin" level, the pendulum goes over the top and the trajectory in the phase plane runs sideways instead of looping.</li>
+    <li>Increase \(T\) slowly. The stable equilibrium and the saddle move toward each other. When \(T &gt; a\) both disappear and the pendulum spins forever: a <b>saddle-node bifurcation</b> (Section 2.7).</li>
+  </ul>
+</div>
+
+<h2 id="limit-cycles">2.4 Limit cycles</h2>
+<p>A linear system can oscillate only at a center, and then the amplitude depends on the initial state and the slightest perturbation destroys the oscillation. A nonlinear system can have an isolated closed orbit, a <b>limit cycle</b>, that nearby trajectories approach. The classic example is the Van der Pol oscillator:</p>
+<div class="eq">\[ \ddot{x} - \mu\,(1 - x^2)\,\dot{x} + x = 0 \]</div>
+<p>This is a mass and spring with a strange damper. For \(|x| &lt; 1\) the damping is negative and pumps energy in; for \(|x| &gt; 1\) it is positive and drains energy. The balance gives one oscillation with a fixed amplitude, close to 2.</p>
+<figure>
+  <div class="lab" data-lab="ch2-vdp"></div>
+  <figcaption><b>Figure 2.4</b> Van der Pol oscillator. The damper changes color depending on whether it is adding or removing energy.</figcaption>
+</figure>
+<p>Make \(\mu\) large and the oscillation becomes a <b>relaxation oscillation</b>: slow creeping alternating with fast jumps. That two-time-scale structure is the subject of Chapter 11.</p>
+
+<h2 id="periodic">2.6 Existence of periodic orbits</h2>
+<ul>
+  <li><b>Poincaré–Bendixson criterion.</b> If a closed and bounded region \(M\) contains no equilibrium (or only an unstable focus or node) and every trajectory that starts in \(M\) stays in \(M\), then \(M\) contains a periodic orbit. This is how one proves the Van der Pol limit cycle exists.</li>
+  <li><b>Bendixson criterion.</b> If \(\partial f_1/\partial x_1 + \partial f_2/\partial x_2\) does not vanish identically and does not change sign on a simply connected region, there is no periodic orbit inside it.</li>
+  <li><b>Index method.</b> Inside any periodic orbit, the number of nodes, foci and centers minus the number of saddles equals one.</li>
+</ul>
+
+<h2 id="bifurcation">2.7 Bifurcation</h2>
+<p>A <b>bifurcation</b> is a qualitative change of the phase portrait as a parameter crosses a critical value: equilibria appear or disappear, change stability, or a limit cycle is born. The pendulum with torque \(T\) shows a saddle-node bifurcation at \(T = a\); the tunnel diode shows two of them (with hysteresis) as \(u\) varies. Other standard types are the transcritical, pitchfork and Hopf bifurcations; in a Hopf bifurcation a focus loses stability and a small limit cycle appears around it.</p>
+
+<div class="box">
+  <span class="box-t">Key takeaways</span>
+  <p>The phase plane shows the whole behavior of a second-order system in one picture. Linearization classifies hyperbolic equilibria, but only locally and never at a center. Nonlinear systems can have multiple equilibria, limit cycles and bifurcations, none of which a linear system can produce.</p>
+</div>

@@ -1,0 +1,49 @@
+<p>Real systems never match their models. This chapter takes a nominal system with a known Lyapunov function and asks what survives when a perturbation is added:</p>
+<div class="eq">\[ \dot x = f(t, x) + g(t, x) \]</div>
+<p>where \(f\) is the nominal part and \(g\) collects modeling errors, disturbances and uncertainties, about which we only know a bound.</p>
+
+<h2 id="vanishing">9.1 Vanishing perturbation</h2>
+<p>If \(g(t, 0) = 0\), the origin remains an equilibrium. Suppose the nominal system has an exponentially stable origin with a Lyapunov function satisfying</p>
+<div class="eq">\[ c_1\|x\|^2 \le V \le c_2\|x\|^2, \quad \frac{\partial V}{\partial t} + \frac{\partial V}{\partial x} f \le -c_3\|x\|^2, \quad \Big\|\frac{\partial V}{\partial x}\Big\| \le c_4\|x\| \]</div>
+<div class="box thm">
+  <span class="box-t">Lemma 9.1</span>
+  <p>If \(\|g(t, x)\| \le \gamma\|x\|\) with \(\gamma &lt; c_3/c_4\), the origin of the perturbed system is still exponentially stable.</p>
+</div>
+<p>The proof is one line: \(\dot V \le -c_3\|x\|^2 + c_4\gamma\|x\|^2\). For a linear nominal system \(\dot x = Ax\) with \(V = x^\top Px\), \(PA + A^\top P = -I\), the margin is \(\gamma &lt; 1/(2\lambda_{\max}(P))\). The bound is robust in the sense that it holds for every \(g\) satisfying the bound, which is also why it is conservative.</p>
+
+<h2 id="nonvanishing">9.2 Nonvanishing perturbation</h2>
+<p>If \(g(t, 0) \ne 0\), the origin is no longer an equilibrium and we cannot hope for convergence to it. The right concept is <b>ultimate boundedness</b>: every solution eventually enters a ball and stays there.</p>
+<div class="box thm">
+  <span class="box-t">Lemma 9.2</span>
+  <p>Under the same conditions, if \(\|g(t, x)\| \le \delta\) with \(\delta\) small enough, solutions starting close enough are ultimately bounded by</p>
+  <div class="eq">\[ b = \frac{c_4}{c_3}\sqrt{\frac{c_2}{c_1}}\;\frac{\delta}{\theta}, \qquad 0 &lt; \theta &lt; 1 \]</div>
+</div>
+<figure>
+  <div class="lab" data-lab="ch9-pert"></div>
+  <figcaption><b>Figure 9.1</b> A stable second-order system with a vanishing or nonvanishing perturbation. The dashed circle is the guaranteed ultimate bound.</figcaption>
+</figure>
+<div class="try">
+  <h4>Try this</h4>
+  <ul>
+    <li>With the nonvanishing perturbation, double \(\delta\): the final oscillation and the bound both double. The size of the response is proportional to the size of the disturbance.</li>
+    <li>Compare the measured ultimate size with the bound. The bound uses only the worst case of \(g\), so it is several times larger.</li>
+    <li>With the vanishing perturbation, raise \(\delta\) above the margin \(1/(2\lambda_{\max})\). The lemma stops applying, but the system may still converge.</li>
+  </ul>
+</div>
+
+<h2 id="comparison">9.3 The comparison method</h2>
+<p>Sharper results come from the comparison lemma (Section 3.4). Writing \(W = \sqrt V\) often turns the Lyapunov inequality into a linear differential inequality, \(\dot W \le -a W + b\,\delta(t)\), whose solution bounds \(\|x(t)\|\). This handles perturbations that are large for a short time, or that decay, where the fixed bound \(\delta\) would be too crude.</p>
+
+<h2 id="infinite">9.4 Continuity of solutions on the infinite interval</h2>
+<p>Chapter 3 showed that solutions depend continuously on parameters over finite time. If the nominal system is exponentially stable, this extends to infinite time: a small perturbation causes a small change in the solution <i>for all</i> \(t \ge 0\). This is the reason a model with small errors can be trusted for long simulations, but only around a stable equilibrium.</p>
+
+<h2 id="interconnected">9.5 Interconnected systems</h2>
+<p>A large system made of subsystems \(\dot x_i = f_i(t, x_i) + g_i(t, x)\), each stable on its own and weakly coupled through \(g_i\), can be analyzed with a <b>composite Lyapunov function</b> \(V = \sum d_i V_i\). Stability follows if a certain test matrix built from the subsystem constants and the coupling strengths is an M-matrix: strong enough individual stability beats weak enough coupling.</p>
+
+<h2 id="slowly">9.6 Slowly varying systems</h2>
+<p>For \(\dot x = f(x, u(t))\) with \(u\) changing slowly, each frozen value of \(u\) has an equilibrium \(h(u)\). If those equilibria are uniformly exponentially stable and \(\dot u\) is small, the state stays close to \(h(u(t))\), with an error proportional to \(\sup\|\dot u\|\). This justifies gain scheduling (Chapter 12): designing for frozen operating points works if the operating point moves slowly.</p>
+
+<div class="box">
+  <span class="box-t">Key takeaways</span>
+  <p>A perturbation that vanishes at the origin and is small relative to the nominal stability margin preserves exponential stability. A nonvanishing perturbation can only give ultimate boundedness, with a bound proportional to its size. Exponential stability is what makes a system robust: it is the hypothesis behind every result in this chapter.</p>
+</div>

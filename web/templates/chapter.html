@@ -1,0 +1,44 @@
+{{define "head"}}
+<script src="/static/js/mathjax-config.js?v={{.Version}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-svg.js" defer></script>
+{{end}}
+
+{{define "main"}}
+<div class="shell">
+  <aside class="side">
+    <nav class="side-nav" aria-label="{{index .T "contents"}}">
+      <div class="progress"><span id="pct">0</span> {{index .T "read"}}<div class="progress-bar"><i id="pbar"></i></div></div>
+      <p class="side-h">{{index .T "contents"}}</p>
+      <ul class="toc" id="toc"></ul>
+      <details class="side-chapters">
+        <summary>{{index .T "chapters"}}</summary>
+        <ol>
+          {{$cur := .Chapter.Num}}
+          {{range .Chapters}}<li><a href="{{.URL}}"{{if eq .Num $cur}} aria-current="page"{{end}}><span>{{.NumLocal}}</span> {{.Title}}</a></li>{{end}}
+        </ol>
+      </details>
+    </nav>
+  </aside>
+
+  <article class="chapter" id="article">
+    <div class="crumb"><a href="/{{.Lang}}/">{{index .T "home"}}</a> / {{index .T "chapter"}} {{.Chapter.NumLocal}}</div>
+    <p class="ch-num">{{index .T "chapter"}} {{.Chapter.NumLocal}}</p>
+    <h1>{{.Chapter.Title}}</h1>
+    <p class="desc">{{.Chapter.Summary}}</p>
+
+    {{.Chapter.Content}}
+
+    <nav class="pager" aria-label="{{index .T "chapters"}}">
+      {{with .Chapter.Prev}}<a class="pager-prev" href="{{.URL}}"><small>{{index $.T "prev"}}</small><span>{{.NumLocal}}. {{.Title}}</span></a>{{else}}<span></span>{{end}}
+      {{with .Chapter.Next}}<a class="pager-next" href="{{.URL}}"><small>{{index $.T "next"}}</small><span>{{.NumLocal}}. {{.Title}}</span></a>{{end}}
+    </nav>
+  </article>
+</div>
+{{end}}
+
+{{define "scripts"}}
+{{if .Chapter.LabScript}}
+<script src="/static/js/lab.js?v={{.Version}}" defer></script>
+<script src="{{.Chapter.LabScript}}" defer></script>
+{{end}}
+{{end}}

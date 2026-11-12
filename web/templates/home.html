@@ -1,0 +1,41 @@
+{{define "main"}}
+<section class="hero">
+  <div class="hero-in">
+    <p class="eyebrow">H. K. Khalil · Nonlinear Systems</p>
+    <h1>{{index .T "siteTitle"}}</h1>
+    <p class="lead">{{index .T "heroLead"}}</p>
+    <a class="cta" href="/{{.Lang}}/chapter/1">{{index .T "start"}}</a>
+  </div>
+  <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+</section>
+
+<section class="wrap how">
+  <h2>{{index .T "howTitle"}}</h2>
+  <ol class="how-list">
+    <li>{{index .T "how1"}}</li>
+    <li>{{index .T "how2"}}</li>
+    <li>{{index .T "how3"}}</li>
+  </ol>
+</section>
+
+<section class="wrap" id="chapters">
+  <h2>{{index .T "chapters"}}</h2>
+  <ol class="cards">
+    {{range .Chapters}}
+    <li>
+      <a class="card" href="{{.URL}}">
+        <span class="card-num">{{.NumLocal}}</span>
+        <span class="card-body">
+          <span class="card-title">{{.Title}}</span>
+          <span class="card-sum">{{.Summary}}</span>
+        </span>
+      </a>
+    </li>
+    {{end}}
+  </ol>
+</section>
+{{end}}
+
+{{define "scripts"}}
+<script src="/static/js/hero.js?v={{.Version}}" defer></script>
+{{end}}

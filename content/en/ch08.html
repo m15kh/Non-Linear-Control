@@ -1,0 +1,46 @@
+<p>This chapter goes back to Lyapunov stability for questions Chapter 4 left open: what to do when linearization is inconclusive, how big the region of attraction is, what to conclude when \(\dot V\) is only semidefinite for a time-varying system, and when a periodic orbit is stable.</p>
+
+<h2 id="center">8.1 The center manifold theorem</h2>
+<p>When the Jacobian at the origin has some eigenvalues with zero real part and the rest with negative real part, linearization is inconclusive. Split the state into \(y\) (critical directions) and \(z\) (stable directions):</p>
+<div class="eq">\[ \dot y = A_1 y + g_1(y, z), \qquad \dot z = A_2 z + g_2(y, z) \]</div>
+<p>with \(A_1\) having eigenvalues on the imaginary axis and \(A_2\) Hurwitz. There is an invariant <b>center manifold</b> \(z = h(y)\), tangent to the \(y\)-axis at the origin. The fast stable directions die out, and the long-term behavior happens on the manifold.</p>
+<div class="box thm">
+  <span class="box-t">Reduction principle (Theorem 8.2)</span>
+  <p>The origin of the full system is asymptotically stable (or unstable) if and only if the origin of the <b>reduced system</b> \(\dot y = A_1 y + g_1(y, h(y))\) is asymptotically stable (or unstable).</p>
+</div>
+<p>\(h\) is rarely known exactly, but it can be approximated by a Taylor series that solves the invariance equation \(\frac{\partial h}{\partial y}\big[A_1 y + g_1(y, h)\big] = A_2 h + g_2(y, h)\) to the needed order.</p>
+<figure>
+  <div class="lab" data-lab="ch8-cm"></div>
+  <figcaption><b>Figure 8.1</b> \(\dot y = yz,\ \dot z = -z + ay^2\). The eigenvalues are 0 and −1. The center manifold is \(z \approx ay^2\), and the reduced system \(\dot y = ay^3\) decides stability by the sign of \(a\).</figcaption>
+</figure>
+
+<h2 id="roa">8.2 Region of attraction</h2>
+<p>For an asymptotically stable equilibrium, the <b>region of attraction</b> is the set of all initial states whose trajectories converge to it. It is an open, connected, invariant set, and its boundary is made of trajectories, often the stable manifolds of saddles or an unstable limit cycle. Computing it exactly is usually impossible, but Lyapunov functions give safe estimates.</p>
+<div class="box thm">
+  <span class="box-t">Estimate with a level set</span>
+  <p>If \(\dot V &lt; 0\) on \(D \setminus\{0\}\), then every bounded level set \(\Omega_c = \{V(x) \le c\}\) that lies entirely in \(D\) is positively invariant and contained in the region of attraction. The best estimate uses the largest such \(c\):</p>
+  <div class="eq">\[ c^* = \min_{x \ne 0,\ \dot V(x) = 0} V(x) \]</div>
+</div>
+<figure>
+  <div class="lab" data-lab="ch8-roa"></div>
+  <figcaption><b>Figure 8.2</b> Estimating the region of attraction. The yellow region is where \(\dot V &gt; 0\); the estimate \(\Omega_c\) must avoid it. For the reversed Van der Pol oscillator, the dashed curve is the true boundary: the unstable limit cycle.</figcaption>
+</figure>
+<div class="try">
+  <h4>Try this</h4>
+  <ul>
+    <li>Drag \(c\) up until the level curve touches the yellow region; the curve turns red. That touching value is \(c^*\).</li>
+    <li>Click a point just outside the estimate but inside the dashed curve: it still converges. The estimate is safe, but conservative.</li>
+    <li>For the reversed Van der Pol, \(V = x^\top P x\) comes from the Lyapunov equation of the linearization (Section 4.3). A different \(Q\), or a higher-order \(V\), gives a better estimate.</li>
+  </ul>
+</div>
+
+<h2 id="invariance-like">8.3 Invariance-like theorems</h2>
+<p>LaSalle's principle needs an autonomous system. For time-varying systems, <b>Barbalat's lemma</b> plays its role: if \(\phi(t)\) is uniformly continuous and \(\int_0^\infty \phi(\tau)\, d\tau\) exists and is finite, then \(\phi(t) \to 0\). Applied to \(\phi = -\dot V \ge 0\), it shows for example that \(\dot V = -W(x) \le 0\) implies \(W(x(t)) \to 0\). This is the standard argument in adaptive control, where the parameter errors stay bounded but need not converge, while the tracking error does go to zero.</p>
+
+<h2 id="periodic">8.4 Stability of periodic solutions</h2>
+<p>A periodic orbit can be stable as a set, even though nearby solutions drift in phase along it. This is <b>orbital stability</b>. A practical test uses a <b>Poincaré map</b>: take a surface \(S\) crossing the orbit, and map each point of \(S\) to where its trajectory next returns to \(S\). The periodic orbit is a fixed point \(p\) of this map, and the orbit is asymptotically orbitally stable if the Jacobian of the map at \(p\) has all eigenvalues strictly inside the unit circle. The Van der Pol limit cycle passes this test.</p>
+
+<div class="box">
+  <span class="box-t">Key takeaways</span>
+  <p>When linearization is inconclusive, the center manifold reduces the problem to the critical directions. Lyapunov level sets that avoid \(\dot V \ge 0\) give safe but conservative estimates of the region of attraction. Barbalat's lemma replaces LaSalle for time-varying systems, and Poincaré maps decide the stability of periodic orbits.</p>
+</div>

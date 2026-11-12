@@ -1,0 +1,40 @@
+<p>Chapter 12 linearizes by approximation, so the result is valid only near one point. Feedback linearization linearizes <i>exactly</i>: a nonlinear change of variables and a feedback that cancels the nonlinearities turn the closed loop into a linear system everywhere the transformation is defined.</p>
+
+<h2 id="motivation">13.1 Motivation</h2>
+<p>Take the pendulum with input torque, \(\ddot\theta = a\sin\theta - b\dot\theta + c\,u\). The control</p>
+<div class="eq">\[ u = \frac{1}{c}\big[-a\sin\theta + b\dot\theta + v\big] \]</div>
+<p>cancels the nonlinearity and leaves \(\ddot\theta = v\), a double integrator. Now any linear design works: \(v = -k_1\theta - k_2\dot\theta\) gives \(\ddot\theta + k_2\dot\theta + k_1\theta = 0\), with poles placed wherever we like, for every initial state.</p>
+<p>The structure that makes this possible: the nonlinearity enters in the same equation as the control. In general, for \(\dot x = f(x) + G(x)u\), we look for a feedback \(u = \alpha(x) + \beta(x)v\) and a change of variables \(z = T(x)\) such that \(\dot z = Az + Bv\).</p>
+<figure>
+  <div class="lab" data-lab="ch13-fl"></div>
+  <figcaption><b>Figure 13.1</b> Inverted pendulum with feedback linearization or a linear controller (same \(k_1, k_2\)). Yellow: where the Lyapunov function of the target linear system increases. The slider \(\hat a\) is the controller's model of the gravity term.</figcaption>
+</figure>
+<div class="try">
+  <h4>Try this</h4>
+  <ul>
+    <li>With feedback linearization and \(\hat a = 1\), there is no yellow region: the closed loop is exactly linear, and every trajectory follows the ellipses.</li>
+    <li>Switch to the linear controller with \(k_1 = 1.3\). Large angles recover slowly, and \(V\) increases in parts of the plane.</li>
+    <li>Back to feedback linearization, move \(\hat a\) away from 1. The uncancelled term \((a - \hat a)\sin\theta\) reappears. Exact cancellation needs an exact model.</li>
+  </ul>
+</div>
+
+<h2 id="io">13.2 Input–output linearization</h2>
+<p>For a single output \(y = h(x)\), differentiate \(y\) until \(u\) appears. Using Lie derivatives \(L_f h = \frac{\partial h}{\partial x} f\):</p>
+<div class="eq">\[ y^{(\rho)} = L_f^{\rho} h(x) + L_g L_f^{\rho - 1} h(x)\; u \]</div>
+<p>The number of differentiations \(\rho\) is the <b>relative degree</b>. If \(L_g L_f^{\rho-1}h \ne 0\), the control \(u = \frac{1}{L_g L_f^{\rho-1}h}\big[-L_f^\rho h + v\big]\) gives \(y^{(\rho)} = v\): a chain of \(\rho\) integrators from \(v\) to \(y\).</p>
+<p>If \(\rho &lt; n\), part of the dynamics is now invisible from the output. With \(y \equiv 0\), what remains is the <b>zero dynamics</b>, the nonlinear counterpart of the zeros of a transfer function. If the zero dynamics are asymptotically stable the system is <b>minimum phase</b>, and input–output linearization stabilizes the whole state. If not, cancelling makes the hidden part unstable.</p>
+
+<h2 id="full-state">13.3 Full-state linearization</h2>
+<p>If some output has relative degree \(\rho = n\), there are no zero dynamics and the whole state is linearized. Such an output exists if and only if two geometric conditions hold: the vector fields \(\{g, \operatorname{ad}_f g, \dots, \operatorname{ad}_f^{n-1} g\}\) are linearly independent (a controllability condition), and \(\{g, \dots, \operatorname{ad}_f^{n-2} g\}\) is <b>involutive</b> (closed under Lie brackets). The single-link manipulator with a flexible joint is the book's standard example.</p>
+
+<h2 id="design">13.4 State feedback control</h2>
+<ul>
+  <li><b>Stabilization:</b> in the new coordinates choose \(v = -Kz\) with \(A - BK\) Hurwitz.</li>
+  <li><b>Tracking:</b> for \(y\) to follow \(r(t)\), use \(v = r^{(\rho)} - k_1 e^{(\rho-1)} - \dots - k_\rho e\), with \(e = y - r\), so the error obeys a stable linear equation.</li>
+  <li><b>Robustness:</b> cancellation is exact only for an exact model. With model errors the closed loop is a linear system plus a perturbation, and the results of Chapter 9 bound the effect. Chapter 14 adds terms designed to dominate that perturbation.</li>
+</ul>
+
+<div class="box">
+  <span class="box-t">Key takeaways</span>
+  <p>Feedback linearization cancels nonlinearities to make the closed loop exactly linear, in a region much larger than a linearization is valid in. Its limits: it needs an accurate model, the zero dynamics must be stable (minimum phase), and cancelling a helpful nonlinearity can waste control effort.</p>
+</div>

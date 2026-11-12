@@ -1,0 +1,50 @@
+<p>Feedback linearization needs an exact model. The tools in this chapter are built to work when the model is uncertain: they use Lyapunov functions not only to analyze a closed loop, but to construct the controller.</p>
+
+<h2 id="smc">14.1 Sliding mode control</h2>
+<p>Take \(\dot x_1 = x_2,\ \dot x_2 = h(x) + g(x)u\), where \(h\) and \(g\) are uncertain but bounded. The design has two steps.</p>
+<ol>
+  <li><b>Choose a sliding surface</b> \(s = x_2 + \lambda x_1 = 0\), \(\lambda &gt; 0\). On it, \(\dot x_1 = -\lambda x_1\), so \(x_1 \to 0\) exponentially, whatever \(h\) and \(g\) are. The surface is a reduced-order system with the dynamics we chose.</li>
+  <li><b>Force the state onto the surface.</b> With \(V = \tfrac12 s^2\), choose \(u\) so that</li>
+</ol>
+<div class="eq">\[ s\,\dot s \le -\eta\, g_0\, |s|, \qquad \text{e.g.}\quad u = -\beta(x)\,\operatorname{sgn}(s) \]</div>
+<p>with \(\beta\) large enough to dominate the uncertainty. Then \(|s|\) decreases at a fixed rate and reaches zero in <i>finite time</i> (the <b>reaching phase</b>), after which the state stays on the surface (the <b>sliding phase</b>). On the surface the closed loop is insensitive to the matched uncertainty.</p>
+<figure>
+  <div class="lab" data-lab="ch14-smc"></div>
+  <figcaption><b>Figure 14.1</b> Sliding mode control of an inverted pendulum whose gravity coefficient \(a\) is unknown to the controller. The orange line is the sliding surface.</figcaption>
+</figure>
+<div class="try">
+  <h4>Try this</h4>
+  <ul>
+    <li>Change the true \(a\) between 0 and 2 with \(k = 2.5\): the sliding phase looks the same every time. That is the robustness.</li>
+    <li>Look at the dashed \(u(t)/k\) curve: on the surface the control switches between \(\pm k\) at the simulation rate. In practice that is <b>chattering</b>: it excites unmodeled dynamics and wears actuators.</li>
+    <li>Switch to \(\operatorname{sat}(s/\varepsilon)\). The control becomes continuous, chattering disappears, and the state converges to a small boundary layer \(|s| \le \varepsilon\) instead of exactly to the surface.</li>
+    <li>Reduce \(k\) below about \(a\): the reaching condition fails at large angles, and gravity wins.</li>
+  </ul>
+</div>
+
+<h2 id="redesign">14.2 Lyapunov redesign</h2>
+<p>Start with a nominal controller \(\psi(x)\) and a Lyapunov function \(V\) for the nominal closed loop. If the real system has an uncertainty \(\delta\) that enters through the control channel (a <b>matched</b> uncertainty) with a known bound \(\|\delta\| \le \rho(x) + k\|v\|\), add a term \(v\) built from \(w = [\partial V/\partial x]\,G\):</p>
+<div class="eq">\[ v = -\frac{\eta(x)}{1 - k}\,\frac{w}{\|w\|} \]</div>
+<p>This makes \(\dot V\) at least as negative as for the nominal design, despite \(\delta\). The term is discontinuous at \(w = 0\), so in practice it is smoothed (a saturation, as in sliding mode), and the result becomes ultimate boundedness with a bound that shrinks with the smoothing width. <b>Nonlinear damping</b>, \(v = -k\,w\,\|\Gamma(x)\|^2\), handles an uncertainty of the form \(\Gamma(x)\,\delta_0\) whose bound is unknown, and keeps the state bounded.</p>
+
+<h2 id="backstepping">14.3 Backstepping</h2>
+<p>For systems in <b>strict-feedback form</b>,</p>
+<div class="eq">\[ \dot\eta = f(\eta) + g(\eta)\xi, \qquad \dot\xi = u \]</div>
+<p>suppose a "virtual control" \(\xi = \phi(\eta)\) would stabilize the first equation with a Lyapunov function \(V(\eta)\). Backstepping treats \(\xi\) as a control one step back: define the error \(z = \xi - \phi(\eta)\), and choose \(u\) so that the augmented Lyapunov function</p>
+<div class="eq">\[ V_a(\eta, \xi) = V(\eta) + \tfrac12\big[\xi - \phi(\eta)\big]^2 \]</div>
+<p>decreases. The design is recursive: for a chain of \(n\) integrators it is repeated \(n\) times, and it ends with a controller and a Lyapunov function for the whole system. Unlike feedback linearization, backstepping does not have to cancel useful nonlinearities; it only has to dominate the harmful ones.</p>
+
+<h2 id="pbc">14.4 Passivity-based control</h2>
+<p>If the map from \(u\) to an output \(y\) is passive with a storage function \(V\) that is positive definite (and the system is zero-state observable), then the simple output feedback</p>
+<div class="eq">\[ u = -\phi(y), \qquad y^\top \phi(y) &gt; 0 \]</div>
+<p>stabilizes the origin (Chapter 6). The design then reduces to shaping the energy: choosing the output, or adding a feedback that makes the closed loop passive with a storage function whose minimum is at the desired point. For robot manipulators, <i>energy shaping plus damping injection</i>, \(u = \nabla P(q) - K_p(q - q^*) - K_d\dot q\) (cancel gravity, add a virtual spring and damper), regulates the position with a controller that is robust to mass and inertia errors.</p>
+
+<h2 id="hgo">14.5 High-gain observers</h2>
+<p>All these designs use the full state. When only the output is measured, a <b>high-gain observer</b> estimates its derivatives:</p>
+<div class="eq">\[ \dot{\hat x}_1 = \hat x_2 + \frac{\alpha_1}{\varepsilon}(y - \hat x_1), \qquad \dot{\hat x}_2 = \phi_0(\hat x, u) + \frac{\alpha_2}{\varepsilon^2}(y - \hat x_1) \]</div>
+<p>For small \(\varepsilon\) the estimation error dies out on a fast time scale, a singular perturbation (Chapter 11). With the control saturated outside the region of interest to avoid the observer's initial peaking, the output feedback controller recovers the performance of the state feedback design as \(\varepsilon \to 0\): the <b>separation principle</b> for nonlinear systems.</p>
+
+<div class="box">
+  <span class="box-t">Key takeaways</span>
+  <p>Sliding mode control forces the state onto a chosen surface in finite time and is insensitive to matched uncertainty, at the cost of chattering (smoothed with a boundary layer). Lyapunov redesign adds a robustifying term to a nominal design. Backstepping builds controller and Lyapunov function together for strict-feedback systems. Passivity-based control shapes energy and injects damping. High-gain observers let all of these work from output measurements.</p>
+</div>

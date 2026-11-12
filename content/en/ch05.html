@@ -1,0 +1,43 @@
+<p>Lyapunov stability is about the internal state. Input–output stability looks at a system as a black box: does a bounded input always give a bounded output, and how large can the output be relative to the input?</p>
+
+<h2 id="l-stability">5.1 L stability</h2>
+<p>Signals are measured with norms. The two most used spaces are</p>
+<div class="eq">\[ \|u\|_{\mathcal L_\infty} = \sup_{t \ge 0} \|u(t)\|, \qquad \|u\|_{\mathcal L_2} = \sqrt{\int_0^\infty \|u(t)\|^2\, dt} \]</div>
+<p>\(\mathcal L_\infty\) is the peak value, \(\mathcal L_2\) the energy. A mapping \(H: u \mapsto y\) is <b>\(\mathcal L\) stable</b> if there exist a class \(\mathcal K\) function \(\alpha\) and a constant \(\beta \ge 0\) such that</p>
+<div class="eq">\[ \|(Hu)_\tau\|_{\mathcal L} \le \alpha\big(\|u_\tau\|_{\mathcal L}\big) + \beta \]</div>
+<p>for every input and every truncation time \(\tau\). It is <b>finite-gain \(\mathcal L\) stable</b> if \(\alpha(r) = \gamma r\); the smallest such \(\gamma\) is the <b>gain</b>. The constant \(\beta\) is the bias, which accounts for nonzero initial conditions.</p>
+
+<h2 id="state-models">5.2 L stability of state models</h2>
+<p>For \(\dot x = f(x, u),\ y = h(x, u)\), Lyapunov theory gives input–output results. If the origin of the unforced system is exponentially stable (and \(f\), \(h\) satisfy Lipschitz-type bounds), the system is finite-gain \(\mathcal L_p\) stable for every \(p\). More generally, input-to-state stability (Section 4.9) implies \(\mathcal L_\infty\) stability.</p>
+<figure>
+  <div class="lab" data-lab="ch5-gain"></div>
+  <figcaption><b>Figure 5.1</b> A damped mass with a hardening spring driven by \(u = A\sin\omega t\). The ratio \(\sup|y| / \sup|u|\) is measured after the transient.</figcaption>
+</figure>
+<div class="try">
+  <h4>Try this</h4>
+  <ul>
+    <li>With the linear spring, change \(A\): the ratio stays the same. Sweep \(\omega\) to find the largest ratio, the \(\mathcal H_\infty\) norm of \(G\).</li>
+    <li>With the hardening spring, the ratio near resonance drops as \(A\) grows. For a nonlinear system, the gain is a worst case over all inputs, not a frequency response.</li>
+  </ul>
+</div>
+
+<h2 id="l2-gain">5.3 L₂ gain</h2>
+<p>For a linear time-invariant system with a Hurwitz \(A\), the \(\mathcal L_2\) gain equals the peak of the frequency response:</p>
+<div class="eq">\[ \gamma = \sup_{\omega \in \mathbb R} \|G(j\omega)\| = \|G\|_{\mathcal H_\infty} \]</div>
+<p>For nonlinear systems an upper bound comes from a <b>Hamilton–Jacobi inequality</b>: if a positive semidefinite \(V\) satisfies</p>
+<div class="eq">\[ \dot V \le \tfrac12 \gamma^2 \|u\|^2 - \tfrac12 \|y\|^2 \]</div>
+<p>along trajectories, then the \(\mathcal L_2\) gain is at most \(\gamma\). Integrating both sides from 0 to \(\tau\) shows why: the output energy can never exceed \(\gamma^2\) times the input energy plus the initial stored energy.</p>
+
+<h2 id="small-gain">5.4 The small-gain theorem</h2>
+<div class="box thm">
+  <span class="box-t">Theorem 5.6 (small gain)</span>
+  <p>Connect two finite-gain \(\mathcal L\) stable systems \(H_1\) and \(H_2\), with gains \(\gamma_1\) and \(\gamma_2\), in feedback. If</p>
+  <div class="eq">\[ \gamma_1 \gamma_2 &lt; 1 \]</div>
+  <p>the closed loop is finite-gain \(\mathcal L\) stable.</p>
+</div>
+<p>The idea is a contraction: going once around the loop shrinks the signal, so nothing can build up. This is the foundation of robust control. If an uncertainty \(\Delta\) has gain at most \(\delta\), a controller that makes the gain seen by \(\Delta\) smaller than \(1/\delta\) is stable for all such uncertainties. The theorem is only sufficient, and often conservative, because it ignores phase. Chapter 6 (passivity) uses phase information instead.</p>
+
+<div class="box">
+  <span class="box-t">Key takeaways</span>
+  <p>Input–output stability bounds the output norm by the input norm. Exponential stability or ISS of a state model gives it. For linear systems the \(\mathcal L_2\) gain is the \(\mathcal H_\infty\) norm; for nonlinear systems a dissipation inequality bounds it. The small-gain theorem guarantees stability of a feedback loop whose loop gain is below one.</p>
+</div>

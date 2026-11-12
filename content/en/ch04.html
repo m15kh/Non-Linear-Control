@@ -1,0 +1,120 @@
+<p>Lyapunov's idea: to know whether a system returns to equilibrium, you do not need to solve its equations. Find a function that behaves like energy, a bowl with its bottom at the equilibrium, and check that it never increases along trajectories.</p>
+
+<h2 id="definitions">4.1 Stability of an equilibrium</h2>
+<p>Let \(x = 0\) be an equilibrium of \(\dot x = f(x)\). It is</p>
+<ul>
+  <li><b>stable</b> if for every \(\varepsilon &gt; 0\) there is \(\delta &gt; 0\) such that \(\|x(0)\| &lt; \delta\) implies \(\|x(t)\| &lt; \varepsilon\) for all \(t \ge 0\): start close, stay close;</li>
+  <li><b>unstable</b> if it is not stable;</li>
+  <li><b>asymptotically stable</b> if it is stable and \(\delta\) can be chosen so that \(x(t) \to 0\) as \(t \to \infty\).</li>
+</ul>
+
+<h2 id="definite">Sign definiteness</h2>
+<p>A function \(V\) with \(V(0) = 0\) is <b>positive definite</b> if \(V(x) &gt; 0\) for \(x \ne 0\) and <b>positive semidefinite</b> if \(V(x) \ge 0\). For a quadratic form \(V = x^\top P x\) with \(P\) symmetric, this is decided by the eigenvalues of \(P\), or equivalently by Sylvester's test on its leading principal minors.</p>
+<figure>
+  <div class="lab" data-lab="ch4-ex41"></div>
+  <figcaption><b>Example 4.1</b> When is a quadratic form a bowl? Move \(a\) and watch the eigenvalues and the shape of \(V\).</figcaption>
+</figure>
+
+<h2 id="theorem">Lyapunov's theorem</h2>
+<div class="box thm">
+  <span class="box-t">Theorem 4.1 (Lyapunov's direct method)</span>
+  <p>Let \(V: D \to \mathbb{R}\) be continuously differentiable and positive definite on a domain \(D\) containing the origin. Along trajectories,</p>
+  <div class="eq">\[ \dot V(x) = \frac{\partial V}{\partial x} f(x) \]</div>
+  <p>If \(\dot V(x) \le 0\) in \(D\), the origin is <b>stable</b>. If \(\dot V(x) &lt; 0\) in \(D \setminus \{0\}\), it is <b>asymptotically stable</b>.</p>
+</div>
+<p>\(\dot V\) is computed from \(f\) directly, without solving anything. The level sets \(V(x) = c\) are closed curves around the origin; \(\dot V \le 0\) means trajectories can cross them only inward.</p>
+
+<h3>Example 4.2: a first-order system</h3>
+<p>For \(\dot x = -g(x)\) with \(x\,g(x) &gt; 0\) for \(x \ne 0\), take the area under \(g\) as \(V\). Then \(\dot V = -g(x)^2 &lt; 0\).</p>
+<figure>
+  <div class="lab" data-lab="ch4-ex42"></div>
+  <figcaption><b>Example 4.2</b> \(\dot x = -\sin x\) on \((-\pi, \pi)\). Each ball rolls down the bowl \(V(x) = 1 - \cos x\).</figcaption>
+</figure>
+
+<h3>Example 4.3: the frictionless pendulum</h3>
+<p>The natural candidate is the energy, \(V = a(1 - \cos x_1) + \tfrac12 x_2^2\). Its derivative is exactly zero, so the theorem gives stability, and that is all that is true: the pendulum swings forever on a level curve of \(V\).</p>
+<figure>
+  <div class="lab" data-lab="ch4-ex43"></div>
+  <figcaption><b>Example 4.3</b> Energy is conserved: \(V(t)\) is flat and each trajectory stays on one level curve.</figcaption>
+</figure>
+
+<h3>Example 4.4: the pendulum with friction</h3>
+<p>With friction, the energy gives \(\dot V = -b x_2^2\), which is zero on the whole \(x_1\)-axis. It is only negative semidefinite, so Theorem 4.1 again gives only stability, although the pendulum clearly comes to rest. Khalil then builds a better \(V\): energy plus a quadratic form with a cross term, with coefficients chosen to cancel the indefinite terms in \(\dot V\).</p>
+<figure>
+  <div class="lab" data-lab="ch4-ex44"></div>
+  <figcaption><b>Example 4.4</b> Compare the two Lyapunov functions with the toggle. Watch for the flat steps in \(V(t)\) with the energy function.</figcaption>
+</figure>
+<div class="box warn">
+  <span class="box-t">Lesson</span>
+  <p>The conditions of Lyapunov's theorem are only <b>sufficient</b>. Failing to prove asymptotic stability with one \(V\) says nothing about the system; it may only mean the wrong \(V\) was chosen.</p>
+</div>
+
+<h2 id="variable-gradient">The variable gradient method</h2>
+<p>Instead of guessing \(V\), guess its gradient \(g(x) = \nabla V\) with unknown coefficients. Choose them so that \(\dot V = g^\top f\) is negative definite and so that the Jacobian of \(g\) is symmetric (the condition for \(g\) to be a gradient). Then integrate to get \(V\).</p>
+<figure>
+  <div class="lab" data-lab="ch4-ex45"></div>
+  <figcaption><b>Example 4.5</b> \(\dot x_1 = x_2,\ \dot x_2 = -h(x_1) - a x_2\) with \(h(y) = y - y^3/3\). The sign condition on \(h\) only holds for \(|y| &lt; \sqrt3\), so the result is local. The thick curve is the largest level set inside \(D\), an estimate of the region of attraction.</figcaption>
+</figure>
+
+<h2 id="global">Global asymptotic stability</h2>
+<div class="box thm">
+  <span class="box-t">Theorem 4.2 (Barbashin–Krasovskii)</span>
+  <p>If \(V\) is positive definite on all of \(\mathbb{R}^n\), <b>radially unbounded</b> (\(V(x) \to \infty\) as \(\|x\| \to \infty\)), and \(\dot V &lt; 0\) for all \(x \ne 0\), then the origin is globally asymptotically stable.</p>
+</div>
+<figure>
+  <div class="lab" data-lab="ch4-ex46"></div>
+  <figcaption><b>Example 4.6</b> The same system with \(h(y) = y + y^3\): the sign condition holds everywhere, so every initial state converges.</figcaption>
+</figure>
+<p>Why is radial unboundedness needed? Without it the level sets need not be closed, and a trajectory can run off to infinity while \(V\) keeps decreasing.</p>
+<figure>
+  <div class="lab" data-lab="ch4-fig44"></div>
+  <figcaption><b>Figure 4.4</b> \(V = x_1^2/(1 + x_1^2) + x_2^2\) is positive definite but not radially unbounded. For \(c \ge 1\), the set \(V \le c\) is not bounded.</figcaption>
+</figure>
+
+<h2 id="instability">Instability: Chetaev's theorem</h2>
+<div class="box thm">
+  <span class="box-t">Theorem 4.3 (Chetaev)</span>
+  <p>Suppose \(V(0) = 0\) and there are points arbitrarily close to the origin with \(V &gt; 0\). Let \(U = \{x \in B_r : V(x) &gt; 0\}\). If \(\dot V &gt; 0\) in \(U\), the origin is unstable.</p>
+</div>
+<figure>
+  <div class="lab" data-lab="ch4-ex47"></div>
+  <figcaption><b>Example 4.7</b> Trajectories start almost at the origin inside \(U\), and all of them leave the ball \(B_r\).</figcaption>
+</figure>
+
+<h2 id="lasalle">4.2 The invariance principle</h2>
+<p>Example 4.4 shows the frustration of a semidefinite \(\dot V\). LaSalle's principle removes it: trajectories converge to the largest <b>invariant set</b> inside \(E = \{x : \dot V(x) = 0\}\).</p>
+<div class="box thm">
+  <span class="box-t">LaSalle's theorem and Corollary 4.1</span>
+  <p>Let \(\Omega\) be a compact set that is positively invariant, and \(\dot V \le 0\) in \(\Omega\). Then every solution starting in \(\Omega\) approaches the largest invariant set \(M\) in \(E = \{x \in \Omega : \dot V = 0\}\). If the only solution that can stay identically in \(E\) is \(x(t) \equiv 0\), the origin is asymptotically stable.</p>
+</div>
+<figure>
+  <div class="lab" data-lab="ch4-lasalle"></div>
+  <figcaption><b>LaSalle for the pendulum.</b> The orange line is \(E\). Trajectories touch it, but can stay on it only at the origin.</figcaption>
+</figure>
+
+<h2 id="linear">4.3 Linear systems and linearization</h2>
+<p>For \(\dot x = Ax\), the origin is asymptotically stable exactly when \(A\) is <b>Hurwitz</b> (all eigenvalues have negative real part). Equivalently, for any \(Q = Q^\top &gt; 0\) the <b>Lyapunov equation</b></p>
+<div class="eq">\[ P A + A^\top P = -Q \]</div>
+<p>has a unique solution \(P = P^\top &gt; 0\), and \(V = x^\top P x\) is a Lyapunov function. For a nonlinear system with Jacobian \(A\) at the origin, <b>Theorem 4.7</b> (Lyapunov's indirect method) says: if \(A\) is Hurwitz the origin is asymptotically stable; if \(A\) has an eigenvalue with positive real part it is unstable; otherwise linearization decides nothing. The same \(x^\top P x\) then serves as a local Lyapunov function for the nonlinear system, which is how the region-of-attraction estimates of Chapter 8 start.</p>
+
+<h2 id="more">4.4–4.9 The rest of the chapter</h2>
+<ul>
+  <li><b>Comparison functions</b> (class \(\mathcal K\), \(\mathcal K_\infty\), \(\mathcal{KL}\)) give a compact way to state all definitions: the origin is uniformly asymptotically stable if \(\|x(t)\| \le \beta(\|x(t_0)\|, t - t_0)\) with \(\beta \in \mathcal{KL}\).</li>
+  <li><b>Nonautonomous systems</b> \(\dot x = f(t, x)\) need uniformity in \(t_0\) and a \(V(t, x)\) bounded above and below by class \(\mathcal K\) functions.</li>
+  <li><b>Exponential stability</b> follows when \(k_1\|x\|^a \le V \le k_2\|x\|^a\) and \(\dot V \le -k_3\|x\|^a\).</li>
+  <li><b>Converse theorems</b> say that if the origin is (exponentially) stable, a Lyapunov function exists. So searching for one is never hopeless in principle.</li>
+  <li><b>Boundedness and ultimate boundedness:</b> when \(\dot V &lt; 0\) only outside a ball, solutions eventually enter a set and stay there (Chapter 9 uses this).</li>
+  <li><b>Input-to-state stability</b> (ISS): \(\|x(t)\| \le \beta(\|x(0)\|, t) + \gamma(\sup\|u\|)\). Bounded inputs give bounded states, and the effect of the initial state dies out.</li>
+</ul>
+
+<h2 id="dog">Application: a balancing robot</h2>
+<p>A legged robot standing upright behaves like an inverted pendulum, an equilibrium at the top of a hill. A controller \(u = -2\sin x_1 - b x_2\) turns the hill into a bowl: the closed loop is exactly the pendulum with friction from Example 4.4. The controller keeps the robot upright; the Lyapunov function proves that it does.</p>
+<figure>
+  <div class="lab" data-lab="ch4-dog"></div>
+  <figcaption><b>Robot dog.</b> Push it, switch the controller off, set \(b = 0\). The bar shows \(V\), the distance from standing.</figcaption>
+</figure>
+
+<div class="box">
+  <span class="box-t">Key takeaways</span>
+  <p>A positive definite \(V\) with \(\dot V \le 0\) proves stability; \(\dot V &lt; 0\) proves asymptotic stability; radial unboundedness makes it global. The conditions are sufficient, not necessary, so the art is in choosing \(V\). LaSalle's principle rescues semidefinite \(\dot V\), Chetaev's theorem proves instability, and for linearizations the Lyapunov equation constructs \(V\) automatically.</p>
+</div>

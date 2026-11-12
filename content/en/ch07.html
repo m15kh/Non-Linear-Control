@@ -1,0 +1,59 @@
+<p>Many feedback systems are a linear plant in a loop with one memoryless nonlinearity: a saturating actuator, a relay, a dead zone. This chapter uses frequency-domain tools, familiar from linear control, to analyze them.</p>
+<div class="eq">\[ \dot x = Ax + Bu, \quad y = Cx + Du, \quad u = -\psi(t, y) \]</div>
+
+<h2 id="absolute">7.1 Absolute stability</h2>
+<p>Often we do not know \(\psi\) exactly, only that it lies in a sector \([\alpha, \beta]\). The loop is <b>absolutely stable</b> if the origin is globally uniformly asymptotically stable for <i>every</i> nonlinearity in the sector. (Aizerman's conjecture, that it is enough to check the linear gains \(\alpha \le k \le \beta\), is false.)</p>
+
+<h3>The circle criterion</h3>
+<div class="box thm">
+  <span class="box-t">Circle criterion (scalar, \(G\) Hurwitz)</span>
+  <p>Let \(D(\alpha, \beta)\) be the closed disk whose diameter is the segment \([-1/\alpha, -1/\beta]\) of the real axis. The loop is absolutely stable if</p>
+  <ul>
+    <li>\(0 &lt; \alpha &lt; \beta\): the Nyquist plot of \(G(j\omega)\) stays outside \(D(\alpha, \beta)\) and does not encircle it;</li>
+    <li>\(0 = \alpha &lt; \beta\): the Nyquist plot stays to the right of the vertical line \(\operatorname{Re} s = -1/\beta\);</li>
+    <li>\(\alpha &lt; 0 &lt; \beta\): the Nyquist plot stays inside \(D(\alpha, \beta)\).</li>
+  </ul>
+</div>
+<p>It looks like a Nyquist criterion where the critical point \(-1/k\) is smeared into a disk covering every gain \(k \in [\alpha, \beta]\), and it is proved with a Lyapunov function \(x^\top P x\) built from the Kalman–Yakubovich–Popov lemma (Chapter 6).</p>
+<figure>
+  <div class="lab" data-lab="ch7-circle"></div>
+  <figcaption><b>Figure 7.1</b> Circle criterion for \(G(s) = 4/((s+1)(s/2+1)(s/3+1))\). Left: the sector and one nonlinearity in it. Right: the Nyquist plot and the forbidden region.</figcaption>
+</figure>
+<div class="try">
+  <h4>Try this</h4>
+  <ul>
+    <li>With \(\alpha = 0\), find the largest \(\beta\) for which the plot stays right of the line: that is the largest sector \([0, \beta]\) this test certifies.</li>
+    <li>Raise \(\alpha\) above 0. The forbidden region shrinks from a half-plane to a disk, so a larger \(\beta\) becomes possible.</li>
+  </ul>
+</div>
+
+<h3>The Popov criterion</h3>
+<p>If \(\psi\) is time-invariant, more can be proved. The Popov criterion asks for a \(\gamma \ge 0\) such that</p>
+<div class="eq">\[ \frac{1}{k} + \operatorname{Re}\big[(1 + j\omega\gamma)\, G(j\omega)\big] &gt; 0 \quad \text{for all } \omega \]</div>
+<p>for a sector \([0, k]\). Graphically: plot \(\operatorname{Re}G(j\omega)\) against \(\omega\operatorname{Im}G(j\omega)\) (the Popov plot); the loop is absolutely stable if a straight line through \(-1/k\) with slope \(1/\gamma\) leaves the whole plot to its right. The Lyapunov function behind it is of the Lur'e type, \(x^\top P x + 2\gamma\int_0^y \psi(\sigma)\,d\sigma\).</p>
+
+<h2 id="describing">7.2 The describing function method</h2>
+<p>To predict a limit cycle, assume the oscillation is nearly sinusoidal, \(y \approx a\sin\omega t\). The nonlinearity's output is periodic; keep only its first harmonic. The ratio of that harmonic to the input is the <b>describing function</b> \(\Psi(a)\), an amplitude-dependent gain. Harmonic balance around the loop then requires</p>
+<div class="eq">\[ 1 + \Psi(a)\, G(j\omega) = 0 \quad\Longleftrightarrow\quad G(j\omega) = -\frac{1}{\Psi(a)} \]</div>
+<p>Each intersection of the Nyquist plot with the locus \(-1/\Psi(a)\) predicts a limit cycle with amplitude \(a\) and frequency \(\omega\).</p>
+<div class="tw"><table>
+  <thead><tr><th>Nonlinearity</th><th>Describing function \(\Psi(a)\)</th></tr></thead>
+  <tbody>
+    <tr><td>relay, \(\pm M\)</td><td>\(4M/(\pi a)\)</td></tr>
+    <tr><td>cubic, \(y^3\)</td><td>\(3a^2/4\)</td></tr>
+    <tr><td>saturation (slope 1, limit \(\delta\)), \(a &gt; \delta\)</td><td>\(\frac{2}{\pi}\Big[\sin^{-1}\frac{\delta}{a} + \frac{\delta}{a}\sqrt{1 - \frac{\delta^2}{a^2}}\Big]\)</td></tr>
+  </tbody>
+</table></div>
+<figure>
+  <div class="lab" data-lab="ch7-df"></div>
+  <figcaption><b>Figure 7.2</b> The Van der Pol equation as a loop with \(\psi(x) = x^3/3\). Harmonic balance predicts \(a = 2\), \(\omega = 1\) for every \(\varepsilon\). Compare the measured cycle with the dashed prediction.</figcaption>
+</figure>
+<div class="box warn">
+  <span class="box-t">An approximation, not a proof</span>
+  <p>The describing function works when \(G\) is a good low-pass filter, so that the higher harmonics are small. For large \(\varepsilon\) the Van der Pol wave becomes far from sinusoidal and the prediction degrades. The book also gives conditions under which the prediction can be made rigorous, with error bounds.</p>
+</div>
+
+<div class="box">
+  <span class="box-t">Key takeaways</span>
+  <p>For a linear plant with a sector-bounded nonlinearity, the circle and Popov criteria give absolute stability from the Nyquist plot. The describing function replaces a nonlinearity by an amplitude-dependent gain and predicts limit cycles by harmonic balance; it is approximate, and best when the linear part filters out harmonics.</p>
+</div>

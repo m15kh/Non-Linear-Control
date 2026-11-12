@@ -1,0 +1,44 @@
+<p>The first half of the book analyzes systems; the second half designs controllers. The simplest approach is the one used throughout engineering: linearize, design a linear controller, and use the analysis tools to find out where it works.</p>
+
+<h2 id="problems">12.1 Control problems</h2>
+<ul>
+  <li><b>Stabilization:</b> find \(u = \gamma(x)\) (state feedback) or a dynamic output feedback that makes a desired equilibrium asymptotically stable.</li>
+  <li><b>Tracking and regulation:</b> make an output follow a reference \(r(t)\) despite disturbances \(w(t)\).</li>
+  <li><b>Local, regional, semiglobal, global:</b> results differ in how large the guaranteed region of attraction is. Local means "some neighborhood"; regional means a given set; semiglobal means any given compact set, by tuning the design; global means everywhere.</li>
+</ul>
+
+<h2 id="linearization">12.2 Stabilization via linearization</h2>
+<p>Linearize \(\dot x = f(x, u)\) at the equilibrium \((0, 0)\):</p>
+<div class="eq">\[ A = \frac{\partial f}{\partial x}(0, 0), \qquad B = \frac{\partial f}{\partial u}(0, 0) \]</div>
+<p>If \((A, B)\) is stabilizable, choose \(K\) so that \(A - BK\) is Hurwitz (pole placement, LQR, …) and apply \(u = -Kx\) to the nonlinear system. By Lyapunov's indirect method (Theorem 4.7) the origin of the closed loop is exponentially stable. The Lyapunov function \(x^\top P x\) of the linear closed loop then gives an estimate of the region of attraction, as in Chapter 8.</p>
+<figure>
+  <div class="lab" data-lab="ch12-lin"></div>
+  <figcaption><b>Figure 12.1</b> Inverted pendulum \(\ddot\theta = \sin\theta - 0.1\dot\theta + u\) with linear state feedback and an actuator limit \(|u| \le u_{\max}\). Shaded: states where the actuator is saturated.</figcaption>
+</figure>
+<div class="try">
+  <h4>Try this</h4>
+  <ul>
+    <li>Set \(k_1 &lt; 1\): the closed-loop linearization has a positive eigenvalue and the pendulum falls.</li>
+    <li>With \(k_1 = 3\) and a generous \(u_{\max}\), even large angles are caught. Lower \(u_{\max}\) below 1: no admissible torque can beat gravity near \(90^\circ\), and the region of attraction shrinks to a neighborhood of the origin.</li>
+  </ul>
+</div>
+
+<h2 id="integral">12.3 Integral control</h2>
+<p>A controller designed for a model only drives the error to zero if the model is exact. Constant disturbances and parameter errors leave a steady-state error. The classic cure is to integrate the error,</p>
+<div class="eq">\[ \dot\sigma = y - r, \qquad u = -K_1 x - K_2 \sigma \]</div>
+<p>and stabilize the augmented system \((x, \sigma)\). At any equilibrium of the closed loop \(\dot\sigma = 0\), so \(y = r\) exactly. The integrator state settles at whatever value cancels the unknown constant disturbance. The disturbance does not need to be measured or known; it only has to be constant (or slowly varying), and the closed-loop equilibrium has to remain stable.</p>
+<figure>
+  <div class="lab" data-lab="ch12-int"></div>
+  <figcaption><b>Figure 12.2</b> Holding the pendulum at angle \(r\) against an unknown constant torque \(d\), with and without integral action.</figcaption>
+</figure>
+
+<h2 id="integral-lin">12.4 Integral control via linearization</h2>
+<p>For a nonlinear plant, the equilibrium \((x_{ss}, u_{ss})\) that gives \(y = r\) depends on \(r\) and on the unknown disturbance. Linearizing at that equilibrium and designing \(K_1, K_2\) for the augmented linearization gives a controller whose implementation does <i>not</i> require knowing \((x_{ss}, u_{ss})\): the integrator finds them. Local exponential stability follows from Theorem 4.7, robustly with respect to small parameter errors.</p>
+
+<h2 id="scheduling">12.5 Gain scheduling</h2>
+<p>A linear design is valid only near one operating point. <b>Gain scheduling</b> designs a family of linear controllers, one for each operating point parameterized by a scheduling variable \(\alpha\) (speed, altitude, set point…), and interpolates the gains as \(\alpha\) changes. It is the standard method in flight control. The analysis of Section 9.6 explains when it works: the scheduling variable must change slowly compared with the closed-loop dynamics.</p>
+
+<div class="box">
+  <span class="box-t">Key takeaways</span>
+  <p>A linear controller designed on the linearization stabilizes the nonlinear system locally. How large "locally" is depends on the nonlinearity and on actuator limits, and Lyapunov estimates quantify it. Integral action removes steady-state error from constant disturbances without measuring them. Gain scheduling stretches linear designs over a range of operating points that change slowly.</p>
+</div>

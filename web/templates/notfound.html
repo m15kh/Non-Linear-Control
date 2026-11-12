@@ -1,0 +1,7 @@
+{{define "main"}}
+<section class="wrap notfound">
+  <h1>{{index .T "notFoundTitle"}}</h1>
+  <p>{{index .T "notFoundBody"}}</p>
+  <a class="cta" href="/{{.Lang}}/">{{index .T "backHome"}}</a>
+</section>
+{{end}}

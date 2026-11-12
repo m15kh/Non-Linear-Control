@@ -1,0 +1,67 @@
+<p>Before analyzing \(\dot x = f(t, x)\) we need to know that it has a solution, that the solution is unique, and that it depends continuously on the data. For linear systems all of this is automatic. For nonlinear systems each property can fail, and this chapter gives the conditions that rule the failures out.</p>
+
+<h2 id="existence">3.1 Existence and uniqueness</h2>
+<div class="box">
+  <span class="box-t">Lipschitz condition</span>
+  <p>\(f\) is <b>Lipschitz</b> in \(x\) on a set if there is a constant \(L\) with</p>
+  <div class="eq">\[ \|f(t, x) - f(t, y)\| \le L\,\|x - y\| \]</div>
+  <p>for all \(x, y\) in the set. A continuously differentiable \(f\) is <b>locally</b> Lipschitz; it is <b>globally</b> Lipschitz if and only if \(\partial f/\partial x\) is bounded everywhere.</p>
+</div>
+<div class="box thm">
+  <span class="box-t">The three existence theorems</span>
+  <p><b>Local (Theorem 3.1).</b> If \(f\) is piecewise continuous in \(t\) and locally Lipschitz in \(x\), there is a unique solution on some interval \([t_0, t_0 + \delta]\).</p>
+  <p><b>Global (Theorem 3.2).</b> If \(f\) is globally Lipschitz, the unique solution exists for all \(t \ge t_0\).</p>
+  <p><b>Compact set (Theorem 3.3).</b> If \(f\) is locally Lipschitz on a domain \(D\) and every solution is known to stay in a compact subset of \(D\), the solution exists for all \(t \ge t_0\).</p>
+</div>
+<p>Theorem 3.3 is the one used most in practice: a Lyapunov function often proves that solutions stay in a bounded set, and then existence for all time comes for free.</p>
+
+<h2 id="escape">Finite escape time</h2>
+<p>Local existence really can be only local. The scalar equation \(\dot x = x^2\) has \(f\) locally but not globally Lipschitz, and its solution</p>
+<div class="eq">\[ x(t) = \frac{x_0}{1 - x_0 t} \]</div>
+<p>goes to infinity as \(t \to 1/x_0\). The solution does not exist past that time. No linear system can do this.</p>
+<figure>
+  <div class="lab" data-lab="ch3-escape"></div>
+  <figcaption><b>Figure 3.1</b> Three scalar systems. Top: \(f(x)\) with the balls showing \(x(t)\). Below: \(x(t)\), with the predicted escape time marked.</figcaption>
+</figure>
+<div class="try">
+  <h4>Try this</h4>
+  <ul>
+    <li>With \(\dot x = x^2\), click larger positive values of \(x_0\): the escape time \(1/x_0\) gets shorter.</li>
+    <li>Switch to \(\dot x = x\). The solution also leaves the window, but it only gets to infinity as \(t \to \infty\): a globally Lipschitz \(f\) has no finite escape time.</li>
+    <li>Switch to \(\dot x = -x^3\). It is not globally Lipschitz either, but solutions stay bounded, so Theorem 3.3 gives existence for all time.</li>
+  </ul>
+</div>
+
+<h2 id="nonunique">Non-uniqueness</h2>
+<p>Without the Lipschitz condition, continuity of \(f\) still gives existence, but not uniqueness. The equation \(\dot x = x^{1/3}\) with \(x(0) = 0\) has the solution \(x(t) \equiv 0\), and also, for every \(\tau \ge 0\), a solution that stays at zero until \(\tau\) and then leaves.</p>
+<figure>
+  <div class="lab" data-lab="ch3-nonuniq"></div>
+  <figcaption><b>Figure 3.2</b> A family of solutions through the same initial point. Left: the secant slope of \(x^{1/3}\) at zero grows without bound, so no Lipschitz constant exists there.</figcaption>
+</figure>
+
+<h2 id="continuity">3.2 Continuous dependence on initial conditions and parameters</h2>
+<p>A model is only useful if a small error in the initial state, or in a parameter, causes only a small error in the solution, at least over a finite time. The tool for this is the Gronwall–Bellman inequality.</p>
+<div class="box thm">
+  <span class="box-t">Gronwall–Bellman bound</span>
+  <p>If \(f\) is Lipschitz with constant \(L\), two solutions \(x(t)\) and \(y(t)\) satisfy</p>
+  <div class="eq">\[ \|x(t) - y(t)\| \le \|x(t_0) - y(t_0)\|\, e^{L (t - t_0)} \]</div>
+  <p>on any interval where both exist. With a perturbed equation \(\dot y = f(t, y) + g\), \(\|g\| \le \mu\), an extra term \(\frac{\mu}{L}\big(e^{L(t - t_0)} - 1\big)\) appears.</p>
+</div>
+<figure>
+  <div class="lab" data-lab="ch3-gronwall"></div>
+  <figcaption><b>Figure 3.3</b> Two pendulums started a distance \(10^{e}\) apart, and the Gronwall bound for them (\(L = 1\)), on a logarithmic scale.</figcaption>
+</figure>
+<p>On a finite interval the bound shrinks to zero with the initial gap: that is continuous dependence. On an infinite interval the bound grows without limit and says nothing. Keeping solutions close for all time needs stability, which is Chapter 9's topic (Section 9.4).</p>
+
+<h2 id="sensitivity">3.3 Differentiability and sensitivity equations</h2>
+<p>If \(f\) is continuously differentiable in \(x\) and in a parameter \(\lambda\), the solution is differentiable in \(\lambda\). Its sensitivity \(S(t) = \partial x/\partial \lambda\) satisfies a linear equation along the nominal solution:</p>
+<div class="eq">\[ \dot S = \frac{\partial f}{\partial x}\big(t, x(t), \lambda_0\big)\, S + \frac{\partial f}{\partial \lambda}\big(t, x(t), \lambda_0\big), \qquad S(t_0) = 0 \]</div>
+<p>Solving it together with the state gives a first-order estimate \(x(t, \lambda) \approx x(t, \lambda_0) + S(t)(\lambda - \lambda_0)\). The same equations are what numerical optimizers use to tune parameters of a nonlinear model.</p>
+
+<h2 id="comparison">3.4 Comparison principle</h2>
+<p>Often we cannot solve for \(v(t) = V(x(t))\), but we can show \(\dot v \le g(t, v)\). The comparison lemma says that then \(v(t) \le u(t)\), where \(u\) solves the equation \(\dot u = g(t, u)\) with \(u(t_0) = v(t_0)\). For example, \(\dot v \le -c\,v\) gives \(v(t) \le v(t_0)\, e^{-c(t - t_0)}\). This is the step that turns a Lyapunov inequality into an explicit convergence rate, and it is used throughout Chapters 4 and 9.</p>
+
+<div class="box">
+  <span class="box-t">Key takeaways</span>
+  <p>A locally Lipschitz \(f\) gives a unique solution, at least for a short time. A globally Lipschitz \(f\), or a proof that solutions stay bounded, gives a solution for all time. Without these conditions solutions can escape in finite time or stop being unique. On finite time intervals solutions depend continuously on initial conditions and parameters.</p>
+</div>

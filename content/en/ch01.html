@@ -1,0 +1,66 @@
+<h2 id="models">Nonlinear models</h2>
+<p>Almost every system in the book is written as a set of first-order differential equations, the <b>state model</b>:</p>
+<div class="eq">\[ \dot{x} = f(t, x, u), \qquad y = h(t, x, u) \]</div>
+<p>Here \(x \in \mathbb{R}^n\) is the state, \(u\) the input and \(y\) the output. When there is no input and \(f\) does not depend on \(t\), the system is <b>autonomous</b>: \(\dot{x} = f(x)\). A point \(x^*\) with \(f(x^*) = 0\) is an <b>equilibrium point</b>: start there and you stay there.</p>
+<p>A linear system \(\dot{x} = Ax\) has a single equilibrium (or a whole subspace of them), solutions that exist for all time, and the superposition property. Every one of these can fail as soon as \(f\) is nonlinear.</p>
+
+<h2 id="phenomena">Phenomena only nonlinear systems show</h2>
+<ul>
+  <li><b>Finite escape time.</b> The state can reach infinity in finite time (see Chapter 3).</li>
+  <li><b>Multiple isolated equilibria.</b> Where the system settles depends on where it starts.</li>
+  <li><b>Limit cycles.</b> Stable oscillations whose amplitude does not depend on the initial state (Chapter 2).</li>
+  <li><b>Subharmonic, harmonic and almost-periodic oscillations</b> under periodic input.</li>
+  <li><b>Chaos.</b> Bounded, deterministic, yet unpredictable behavior.</li>
+  <li><b>Multiple modes of behavior,</b> for example jumps and hysteresis when a parameter changes.</li>
+</ul>
+
+<h2 id="superposition">Superposition fails</h2>
+<p>The defining property of a linear system is superposition: doubling the initial state doubles the whole response. The figure runs two copies of the pendulum, one from \(x_0\) and one from \(2x_0\), and plots the first response together with half of the second.</p>
+<figure>
+  <div class="lab" data-lab="ch1-superpos"></div>
+  <figcaption><b>Figure 1.1</b> Superposition test. Toggle between the nonlinear pendulum \(\ddot\theta = -\sin\theta\) and its linearization \(\ddot\theta = -\theta\).</figcaption>
+</figure>
+<div class="try">
+  <h4>Try this</h4>
+  <ul>
+    <li>Set \(x_0 = 0.1\). The two curves almost coincide: close to an equilibrium, the linearization is a good model.</li>
+    <li>Set \(x_0 = 1.5\). The big swing has a longer period, so the curves drift apart. The period depends on the amplitude, which no linear system allows.</li>
+  </ul>
+</div>
+
+<h2 id="pendulum">Example: the pendulum</h2>
+<p>For a pendulum of length \(l\) and mass \(m\) with friction coefficient \(k\), Newton's law in the tangential direction gives</p>
+<div class="eq">\[ m l \ddot{\theta} = -m g \sin\theta - k l \dot{\theta} \]</div>
+<p>With \(x_1 = \theta\) and \(x_2 = \dot\theta\):</p>
+<div class="eq">\[ \dot{x}_1 = x_2, \qquad \dot{x}_2 = -\frac{g}{l}\sin x_1 - \frac{k}{m} x_2 \]</div>
+<p>The equilibria are \((n\pi, 0)\) for every integer \(n\). Physically there are only two: hanging down (\(n\) even) and standing up (\(n\) odd). The pendulum comes back in Chapters 2, 4, 12, 13 and 14; the version with an input torque is the standard example for control design.</p>
+
+<h2 id="tunnel">Example: the tunnel-diode circuit</h2>
+<p>A tunnel diode has a current–voltage curve \(i = h(v)\) with a region of negative slope. In series with a resistor \(R\), an inductor \(L\) and a source \(u\), and with a capacitor \(C\) across the diode, the state \(x_1 = v_C\), \(x_2 = i_L\) obeys</p>
+<div class="eq">\[ \dot{x}_1 = \frac{1}{C}\big[-h(x_1) + x_2\big], \qquad \dot{x}_2 = \frac{1}{L}\big[-x_1 - R x_2 + u\big] \]</div>
+<p>Equilibria satisfy \(h(x_1) = (u - x_1)/R\): they are the intersections of the diode curve with the <b>load line</b>. Depending on \(u\) there are one, two or three of them.</p>
+<figure>
+  <div class="lab" data-lab="ch1-tunnel"></div>
+  <figcaption><b>Figure 1.2</b> Tunnel-diode circuit with the book's numerical values (time in nanoseconds, currents in mA). Left: diode curve and load line. Right: the phase plane.</figcaption>
+</figure>
+<div class="try">
+  <h4>Try this</h4>
+  <ul>
+    <li>At \(u = 1.2\) there are three equilibria. Click on both sides of the saddle and watch the circuit settle in different states. That is a one-bit memory.</li>
+    <li>Raise \(u\) slowly toward 2. The lower two equilibria merge and vanish, and every trajectory jumps to the high-voltage state. Lower \(u\) again and the jump back happens at a different \(u\): hysteresis.</li>
+  </ul>
+</div>
+
+<h2 id="more">Other examples in the chapter</h2>
+<ul>
+  <li><b>Mass–spring system</b> with nonlinear spring force (hardening \(k x + a x^3\) or softening) and nonlinear friction (Coulomb, static). A cubic spring gives the Duffing equation used in Chapter 5.</li>
+  <li><b>Negative-resistance oscillator.</b> A circuit element with negative resistance near zero current gives the Van der Pol equation \(\ddot{v} - \varepsilon (1 - v^2) \dot v + v = 0\), the classic limit cycle of Chapter 2.</li>
+  <li><b>Hopfield neural network,</b> a nonlinear system whose stable equilibria store patterns.</li>
+  <li><b>Adaptive control,</b> where updating controller gains online makes even a linear plant a nonlinear closed loop.</li>
+  <li><b>Common nonlinearities:</b> relay, saturation, dead zone, quantization and hysteresis. They appear in nearly every real actuator and sensor.</li>
+</ul>
+
+<div class="box">
+  <span class="box-t">Key takeaways</span>
+  <p>Nonlinear systems are written as \(\dot x = f(t, x, u)\). They can have several equilibria, oscillations that do not depend on initial conditions, solutions that blow up in finite time, and no superposition. The rest of the book builds tools that work without solving these equations.</p>
+</div>
