@@ -187,7 +187,8 @@
     text(ctx, vd > 1e-4 ? UI.rising : (vd < -1e-4 ? UI.falling : UI.flat), x0 + 10, top + gH + 20, { align: "center", font: `12px ${FONT}`, color: vd > 1e-4 ? "--warn" : "--muted" });
   }
 
-  const deg = th => Math.round(th * 180 / Math.PI);
+  // angle in degrees, wrapped to (-180, 180] for display
+  const deg = th => Math.round((((th + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI) * 180 / Math.PI);
   const SIDES = {
     pendulum(ctx, W, H, lab) {
       const o = val(lab.cfg.sideOpts, lab.P, lab) || {}, x = lab.trajs[0].x, th = x[0];
