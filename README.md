@@ -1,7 +1,6 @@
 <div align="center">
 
 # Nonlinear Control, Visualized
-### کنترل غیرخطی، تصویری
 
 **An interactive, bilingual (Persian / English) companion to H. K. Khalil's *Nonlinear Systems* (3rd edition).**
 One page per chapter, with live simulations you can click and tune.
