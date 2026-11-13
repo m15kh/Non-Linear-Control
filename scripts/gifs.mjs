@@ -29,7 +29,7 @@ const setSlider = (i, v) => `(() => { const s = lab.querySelectorAll('.lab-contr
 
 const DEMOS = [
   {
-    name: "pendulum-bifurcation-fa", path: "/fa/chapter/2", lab: "ch2-pend", seconds: 10,
+    name: "pendulum-bifurcation", path: "/en/chapter/2", lab: "ch2-pend", seconds: 10,
     actions: [
       [1.2, clickPhase(0.62, 0.12)],
       [2.6, clickPhase(0.3, 0.85)],

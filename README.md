@@ -6,7 +6,7 @@
 One page per chapter, with live simulations you can click and tune.
 
 ![Go](https://img.shields.io/badge/Go-1.22%2B-00ADD8?logo=go&logoColor=white)
-![Languages](https://img.shields.io/badge/languages-فارسی%20%7C%20English-1f6f8b)
+![Languages](https://img.shields.io/badge/languages-English%20%7C%20Persian-1f6f8b)
 ![Chapters](https://img.shields.io/badge/chapters-14-3f7d2c)
 ![Interactive figures](https://img.shields.io/badge/interactive%20figures-37-b5532c)
 ![Dependencies](https://img.shields.io/badge/Go%20dependencies-none-555)
@@ -81,26 +81,26 @@ The site is written for Persian-speaking students first (Persian is the default 
 
 ### Home page
 
-| Persian (default) | English |
+| Light theme | Dark theme |
 | :---: | :---: |
-| <img src="docs/screenshots/home-fa.png" alt="Persian home page" width="420"> | <img src="docs/screenshots/home-en.png" alt="English home page with the chapter grid" width="420"> |
-
-| Dark theme | On a phone |
-| :---: | :---: |
-| <img src="docs/screenshots/home-dark.png" alt="Home page in the dark theme" width="420"> | <img src="docs/screenshots/mobile-fa.png" alt="Chapter 2 on a phone, in Persian" width="210"> |
+| <img src="docs/screenshots/home-en.png" alt="Home page with the chapter grid" width="420"> | <img src="docs/screenshots/home-dark.png" alt="Home page in the dark theme" width="420"> |
 
 ### A chapter page
 
-<img src="docs/screenshots/chapter-fa.png" alt="Chapter 4 in Persian, with the table of contents and reading progress on the side" width="820">
+<img src="docs/screenshots/chapter-en.png" alt="Chapter 4, with the table of contents and reading progress on the side" width="820">
 
-*Chapter 4 (Lyapunov stability) in Persian: table of contents and reading progress on the side, chapter text with MathJax formulas, and figures inline.*
+*Chapter 4 (Lyapunov stability): table of contents and reading progress on the side, chapter text with MathJax formulas, and figures inline.*
+
+### On a phone
+
+<img src="docs/screenshots/mobile-en.png" alt="Chapter 2 on a phone: the linear systems figure stacked vertically" width="260">
 
 ### Interactive figures
 
 | | |
 | :---: | :---: |
 | <img src="docs/screenshots/lab-ch4-lyapunov.png" alt="Example 4.4: pendulum with friction and two Lyapunov functions" width="420"><br>**Example 4.4** – the pendulum with friction and two candidate Lyapunov functions. With the energy, V̇ is only semidefinite: see the flat steps in V(t). | <img src="docs/screenshots/lab-ch4-roa-estimate.png" alt="Example 4.5: variable gradient method and region of attraction estimate" width="420"><br>**Example 4.5** – the variable gradient method. The thick curve is the largest level set inside D, a safe estimate of the region of attraction. |
-| <img src="docs/screenshots/lab-ch2-pendulum.png" alt="Chapter 2: pendulum with input torque, in Persian" width="420"><br>**Chapter 2** – the pendulum with friction and input torque. Each equilibrium is classified from its Jacobian; raising the torque makes two equilibria merge and vanish. | <img src="docs/screenshots/lab-ch1-tunnel-diode.png" alt="Chapter 1: tunnel diode circuit with three equilibria" width="420"><br>**Chapter 1** – the tunnel-diode circuit. The load line cuts the diode curve three times: two stable states and a saddle, a one-bit memory. |
+| <img src="docs/screenshots/lab-ch2-pendulum.png" alt="Chapter 2: pendulum with input torque" width="420"><br>**Chapter 2** – the pendulum with friction and input torque. Each equilibrium is classified from its Jacobian; raising the torque makes two equilibria merge and vanish. | <img src="docs/screenshots/lab-ch1-tunnel-diode.png" alt="Chapter 1: tunnel diode circuit with three equilibria" width="420"><br>**Chapter 1** – the tunnel-diode circuit. The load line cuts the diode curve three times: two stable states and a saddle, a one-bit memory. |
 | <img src="docs/screenshots/lab-ch8-region-of-attraction.png" alt="Chapter 8: estimating the region of attraction of the reversed Van der Pol oscillator" width="420"><br>**Chapter 8** – estimating the region of attraction. The level set must avoid the yellow region where V̇ > 0; the dashed curve is the true boundary. | <img src="docs/screenshots/lab-ch7-circle-criterion.png" alt="Chapter 7: circle criterion with Nyquist plot and sector" width="420"><br>**Chapter 7** – the circle criterion. The Nyquist plot of G(jω) must avoid the forbidden half-plane or disk for the sector [α, β]. |
 | <img src="docs/screenshots/lab-ch4-robot-dog.png" alt="Robot dog balanced by a Lyapunov-designed controller" width="420"><br>**Application** – a balancing robot. The controller turns the hilltop into a bowl; the Lyapunov function proves it stays upright. | <img src="docs/screenshots/lab-ch14-sliding-mode-dark.png" alt="Chapter 14: sliding mode control in the dark theme" width="420"><br>**Chapter 14** – sliding mode control (dark theme). The state reaches the sliding surface in finite time; the dashed u(t)/k shows the chattering. |
 
@@ -111,8 +111,8 @@ The site is written for Persian-speaking students first (Persian is the default 
 <table>
 <tr>
 <td width="50%" align="center">
-<img src="docs/gifs/pendulum-bifurcation-fa.gif" alt="Pendulum bifurcation demo in Persian" width="380"><br>
-<b>Saddle-node bifurcation (Persian).</b> Two trajectories are started by clicking, then the input torque T is raised past a: the stable equilibrium and the saddle merge and vanish, and the pendulum spins forever.
+<img src="docs/gifs/pendulum-bifurcation.gif" alt="Pendulum bifurcation demo" width="380"><br>
+<b>Saddle-node bifurcation.</b> Two trajectories are started by clicking, then the input torque T is raised past a: the stable equilibrium and the saddle merge and vanish, and the pendulum spins forever.
 </td>
 <td width="50%" align="center">
 <img src="docs/gifs/region-of-attraction.gif" alt="Region of attraction demo" width="380"><br>

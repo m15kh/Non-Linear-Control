@@ -21,19 +21,18 @@ const PORT = 9333;
 
 // name, path, viewport [w, h], optional: selector to clip to, dark theme
 const SHOTS = [
-  { name: "home-fa", path: "/fa/", vp: [1400, 900] },
   { name: "home-en", path: "/en/", vp: [1400, 900], full: 1700 },
-  { name: "chapter-fa", path: "/fa/chapter/4", vp: [1400, 900] },
+  { name: "chapter-en", path: "/en/chapter/4", vp: [1400, 900] },
   { name: "lab-ch4-lyapunov", path: "/en/chapter/4", vp: [1400, 900], sel: '[data-lab="ch4-ex44"]' },
-  { name: "lab-ch4-roa-estimate", path: "/fa/chapter/4", vp: [1400, 900], sel: '[data-lab="ch4-ex45"]' },
+  { name: "lab-ch4-roa-estimate", path: "/en/chapter/4", vp: [1400, 900], sel: '[data-lab="ch4-ex45"]' },
   { name: "lab-ch4-robot-dog", path: "/en/chapter/4", vp: [1400, 900], sel: '[data-lab="ch4-dog"]' },
-  { name: "lab-ch2-pendulum", path: "/fa/chapter/2", vp: [1400, 900], sel: '[data-lab="ch2-pend"]' },
+  { name: "lab-ch2-pendulum", path: "/en/chapter/2", vp: [1400, 900], sel: '[data-lab="ch2-pend"]' },
   { name: "lab-ch1-tunnel-diode", path: "/en/chapter/1", vp: [1400, 900], sel: '[data-lab="ch1-tunnel"]' },
   { name: "lab-ch7-circle-criterion", path: "/en/chapter/7", vp: [1400, 900], sel: '[data-lab="ch7-circle"]' },
   { name: "lab-ch8-region-of-attraction", path: "/en/chapter/8", vp: [1400, 900], sel: '[data-lab="ch8-roa"]' },
   { name: "lab-ch14-sliding-mode-dark", path: "/en/chapter/14", vp: [1400, 900], sel: '[data-lab="ch14-smc"]', dark: true },
   { name: "home-dark", path: "/en/", vp: [1400, 900], dark: true },
-  { name: "mobile-fa", path: "/fa/chapter/2", vp: [390, 844], mobile: true, scrollTo: '[data-lab="ch2-linear"]' }
+  { name: "mobile-en", path: "/en/chapter/2", vp: [390, 844], mobile: true, scrollTo: '[data-lab="ch2-linear"]' }
 ];
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
