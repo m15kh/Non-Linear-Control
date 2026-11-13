@@ -168,7 +168,7 @@ Each chapter page also covers the sections that have no figure (for example ISS 
 
 ```bash
 cd Non_Linear_Control        # the project folder
-go run .
+./run.sh                     # or: go run .
 ```
 
 Open **<http://localhost:8080>**.
